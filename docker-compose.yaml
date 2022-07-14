@@ -1,0 +1,44 @@
+version: '3.8'
+
+# Must reload docker image upon change of this file, or change of project directories
+
+services:
+    # Uses a custom Docker image built from Node. See api/Dockerfile
+    api:
+        build:
+            context: api
+            dockerfile: Dockerfile
+        ports:
+            - 5000:5000
+            - 9229:9229
+        environment:
+           - SERVER_PORT=8000
+           - CONNECTIONSTRING=mongodb://mongo:27017/elephant
+
+        # Bind-Mount all files in code directory to accomodate nodemon and debuggers.
+        volumes:
+            - ./api/:/app
+
+        # Overrides docker image command. See package.json for debug script.
+        command: npm run dev-up
+    mongo:
+        image: mongo:5.0
+        ports:
+            - 27017:27017
+        volumes:
+            - mongodb:/data/db
+            - mongodb_config:/data/configdb
+            - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+        # This outputs all of the annoying logs into a file instead of the terminal
+        command: mongod --quiet --logpath /dev/null
+
+        # Enabling these, tells the Docker MongoDB official image that we want to create w/ authentication.
+        #   Leaving out means no auth setup at all.
+        # environment:
+        #     - MONGO_INITDB_ROOT_USERNAME=user
+        #     - MONGO_INITDB_ROOT_PASSWORD=password
+        #     - MONGO_INITDB_DATABASE=elephant
+
+volumes:
+    mongodb:
+    mongodb_config:
