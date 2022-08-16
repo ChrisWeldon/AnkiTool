@@ -5,12 +5,10 @@ const fs = require("fs");
 function startSave( title ){
     const path = `./tmp/${title}.csv`;
     const header = `input, mod, target\n`;
-    if(fs.existsSync(path)){
-        console.log("Deck save already exists here!")
-        //TODO handle existing gavN here. ie Prompt continue
-    }
     console.log("starting save");
-    fs.writeFileSync(path, header);
+    if(fs.existsSync(path)){
+        fs.writeFileSync(path, header);
+    }
     return {
         appendWord: ({ input, mod, targets }) => {
             console.log("Appending to file")
@@ -27,10 +25,38 @@ function startSave( title ){
                 return false;
             }
             return true;
-        }
+        },
+        load: () => {
+            console.log("Loading saved data")
+            try{
+                const load = fs.readFileSync(path, {
+                    encoding: 'utf8',
+                    flag: 'r'
+                });
+                console.log(load);
+                return [];
+            }catch( err ){
+                console.log(err);
+            }
+        },
     } 
 }
 
+function checkSave( title ){
+    const path = `./tmp/${title}.csv`;
+    return fs.existsSync(path);
+}
+function removeSave( title ){
+    const path = `./tmp/${title}.csv`;
+    try{
+        fs.unlinkSync(path);
+        return true;
+    }catch( err ){
+        return false;
+    }
+}
+
 module.exports = {
-    startSave
+    startSave,
+    checkSave
 }
