@@ -26,7 +26,7 @@ module.exports = {
                         // Prompt for deletion of existing save
                         const { keep_save } = await inquirer.prompt(KEEP_SAVE)
                         if(!keep_save){
-                            removeSave(request.title);
+                            removeSave(request.deck_name);
                         }
                     }
                     
