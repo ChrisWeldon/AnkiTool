@@ -40,6 +40,7 @@ module.exports = {
                     request.words.map(( word, i) => {
                         word.id = i;
                     });
+                    request.save.load();
                     accept(request);
                 })
                 .catch(err => {

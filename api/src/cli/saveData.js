@@ -1,6 +1,7 @@
 // Saves and checks data to tmp directory so you don't lose your progress on a deck. 
 // Maybe also update decks
 const fs = require("fs");
+const Table = require('cli-table');
 
 // TODO: Clean this file up a bit. Error handling is weird
 
@@ -52,13 +53,11 @@ function parseCSVEntry(b){
 function startSave( title ){
     const path = `./tmp/${title}.csv`;
     const header = `input, mod, target\n`;
-    console.log("starting save");
-    if(fs.existsSync(path)){
+    if(!fs.existsSync(path)){
         fs.writeFileSync(path, header);
     }
     return {
         appendWord: ({ input, mod, targets }) => {
-            console.log("Appending to file")
             try{
                 fs.appendFileSync(
                     path, 
@@ -74,13 +73,28 @@ function startSave( title ){
             return true;
         },
         load: () => {
-            console.log("Loading saved data")
             try{
-                const load = fs.readFileSync(path); // Returns buffer
-                let csv = parseCSV(load);
-                console.log(csv);
-                
-                return [];
+                let csv = parseCSV(fs.readFileSync(path));
+                // We know what the fields are already
+                let table = new Table({
+                    head: csv[0],
+                });
+                table.push(...csv.slice(1));
+                if(csv.length>1){
+                    console.log(table.toString());
+                }
+                let words = [];
+                for(let i=1; i<csv.length; ++i){
+                    let row = csv[i];
+                    words.push(
+                        {
+                            input: row[0],
+                            mod: row[1],
+                            targets: row[2].split(";")
+                        }
+                    )
+                }
+                return words;
             }catch( err ){
                 return [];
             }
@@ -103,9 +117,6 @@ function removeSave( title ){
     }
 }
 
-let s = startSave("test");
-s.appendWord({ input: "Hi", mod: "{m}", targets:["Bonjour"]});
-s.load();
 
 module.exports = {
     startSave,
