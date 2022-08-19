@@ -1,3 +1,8 @@
+# Project specific files
+
+*.apkg
+*.csv
+
 # Logs
 logs
 *.log
