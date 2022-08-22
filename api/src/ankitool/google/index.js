@@ -1,5 +1,9 @@
 const fs = require("fs");
+
+const GoogleImages = require('google-images');
 const axios = require('axios')
+GOOGLE_IMAGE_SEARCH = process.env.GOOGLE_IMAGE_SEARCH; 
+CID = process.env.CID;
 
 async function downloadImage(url, filepath) {
     const response = await axios({
@@ -14,12 +18,6 @@ async function downloadImage(url, filepath) {
     });
 }
 
-// TODO: environmentalize these
-GOOGLE_IMAGE_SEARCH = process.env.GOOGLE_IMAGE_SEARCH; 
-CID = process.env.CID;
-
-
-const GoogleImages = require('google-images');
 
 
 async function getGoogleImage(input, path){
