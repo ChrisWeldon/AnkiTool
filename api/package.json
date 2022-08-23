@@ -1,12 +1,11 @@
 {
-  "name": "api",
-  "version": "1.0.0",
+  "name": "anki-tool",
+  "version": "0.1.0",
   "description": "The server for AnkiTool",
   "main": "bin/index.js",
   "scripts": {
     "cli": "node cli.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "debug": "DEBUG=express:* nodemon --inspect=0.0.0.0:9229 server.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
     "anki-tool": "./bin/index.js"
