@@ -1,6 +1,7 @@
 // Saves and checks data to tmp directory so you don't lose your progress on a deck. 
 // Maybe also update decks
 const fs = require("fs");
+const path = require("path");
 const Table = require('cli-table');
 
 // TODO: Clean this file up a bit. Error handling is weird
@@ -51,16 +52,16 @@ function parseCSVEntry(b){
 
 
 function startSave( title ){
-    const path = `./tmp/${title}.csv`;
+    const name = path.join(__dirname, `/tmp/${title}.csv`);
     const header = `input, mod, target\n`;
-    if(!fs.existsSync(path)){
-        fs.writeFileSync(path, header);
+    if(!fs.existsSync(name)){
+        fs.writeFileSync(name, header);
     }
     return {
         appendWord: ({ input, mod, targets }) => {
             try{
                 fs.appendFileSync(
-                    path, 
+                    name, 
                     `${input},${mod},${targets.join(';')}\n`,
                     { 
                         encoding: "latin1",
@@ -74,7 +75,7 @@ function startSave( title ){
         },
         load: () => {
             try{
-                let csv = parseCSV(fs.readFileSync(path));
+                let csv = parseCSV(fs.readFileSync(name));
                 // We know what the fields are already
                 let table = new Table({
                     head: csv[0],

@@ -21,7 +21,8 @@
  */
 
 
-const fs = require('fs');
+const fs = require('fs').promises;
+const path = require('path');
 const AnkiExport = require('anki-apkg-export').default;
 const { getGoogleImage } = require('../google');
 
@@ -86,7 +87,8 @@ async function Deck(request){
 
     const { deck_name } = request;
     const apkg = new AnkiExport(deck_name);
-
+    const OUTPUT_DIR = process.env.output_dir || `./`;
+    const OUTPUT_PATH = path.join(OUTPUT_DIR, `${deck_name}.apkg`);
     const { compBack, compFront, speakFront, speakBack } = card(request, style);
 
     let deck = {
@@ -94,8 +96,8 @@ async function Deck(request){
             if(request.opts.includes("images")){
                 try{
                     const uri = await getGoogleImage(word.targets.join(" "), "./tmp/");
-                    apkg.addMedia(`${word.id}.jpg`, fs.readFileSync(uri));
-                    fs.unlinkSync(uri);
+                    apkg.addMedia(`${word.id}.jpg`, await fs.readFile(uri));
+                    await fs.unlink(uri);
                 }catch(err){
                     console.log(err);
                 }
@@ -110,12 +112,14 @@ async function Deck(request){
         },
         export: () => {
             apkg.save()
-              .then(zip => {
-                fs.writeFileSync('./output.apkg', zip, 'binary');
-                console.log(`Package has been generated: output.pkg`);
-              })
-              .catch(err => console.log(err.stack || err));
-              return deck;
+                .then(zip => {
+                    return fs.writeFile(OUTPUT_PATH, zip);
+                })
+                .then(res => {
+                    console.log(`Package has been generated: ${deck_name}.pkg`);
+                })
+                .catch(err => console.log(err.stack || err));
+                return deck;
         }
     }
 
