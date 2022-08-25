@@ -1,5 +1,5 @@
 {
-  "name": "anki-tool",
+  "name": "anki-lang",
   "version": "0.1.0",
   "description": "The server for AnkiTool",
   "main": "bin/index.js",
@@ -24,7 +24,6 @@
     "clui": "^0.3.6",
     "dotenv": "^16.0.1",
     "figlet": "^1.5.2",
-    "google-images": "^2.1.0",
     "inquirer": "^8.2.4",
     "querystring": "^0.2.1",
     "string-similarity": "^4.0.4"

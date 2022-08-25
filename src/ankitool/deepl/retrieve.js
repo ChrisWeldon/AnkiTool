@@ -9,7 +9,6 @@ const querystring = require('querystring');
 const langs = require('../langs');
 
 const API_KEY = process.env.DEEPL_API_KEY; 
-console.log(`DEEPL KEY: ${API_KEY}`);
 function getTargetsDeepL(input, request){
     /* Retrieves translation of input word via Deepl
      *

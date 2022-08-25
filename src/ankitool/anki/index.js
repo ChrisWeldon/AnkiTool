@@ -95,7 +95,7 @@ async function Deck(request){
         addCard: async ( word ) => {
             if(request.opts.includes("images")){
                 try{
-                    const uri = await getGoogleImage(word.targets.join(" "), "./tmp/");
+                    const uri = await getGoogleImage(word.targets.join(" "), path.join(__dirname, '/tmp/'));
                     apkg.addMedia(`${word.id}.jpg`, await fs.readFile(uri));
                     await fs.unlink(uri);
                 }catch(err){

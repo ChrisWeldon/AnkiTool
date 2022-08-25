@@ -1,11 +1,8 @@
 const fs = require("fs");
-
-const GoogleImages = require('google-images');
+const path = require("path");
 const axios = require('axios')
 GOOGLE_IMAGE_SEARCH = process.env.GOOGLE_IMAGE_SEARCH; 
 CID = process.env.CID;
-console.log(`Google: ${GOOGLE_IMAGE_SEARCH}`);
-console.log(`CID ${CID}`);
 
 async function downloadImage(url, filepath) {
     const response = await axios({
@@ -20,42 +17,42 @@ async function downloadImage(url, filepath) {
     });
 }
 
+async function callGoogleAPI(term){
+    const url = `https://customsearch.googleapis.com/customsearch/v1?cx=26c8d4546ff284e30&imgSize=MEDIUM&imgType=stock&q=bear&safe=high&searchType=image&key=${GOOGLE_IMAGE_SEARCH}`
+    return axios.get(url);
+}
 
-
-async function getGoogleImage(input, path){
-
+async function getGoogleImage(input, dir){
     if(!CID || !GOOGLE_IMAGE_SEARCH){
         throw("Google Images API key not configured!");
         // TODO: Ask at this moment if you want to configure the API key
     }
     
-    // NOTE: unsure of the overhead of making an instance each time
-    const client = new GoogleImages(CID, GOOGLE_IMAGE_SEARCH);
-    
-    return client.search(input, {page: 1, safe: "high", size: "medium"})
-        .then(async images => {
+    return callGoogleAPI(input)
+        .then(async response => {
             /*
             [{
-                "url": "http://steveangello.com/boss.jpg",
-                "type": "image/jpeg",
-                "width": 1024,
-                "height": 768,
-                "size": 102451,
-                "thumbnail": {
-                    "url": "http://steveangello.com/thumbnail.jpg",
-                    "width": 512,
-                    "height": 512
-                }
+              TODO: enter in image structure to comments 
             }]
              */
+            let images = response.data.items;
             let img = images[0];
             let i = 1;
-            while(img.type != 'image/jpeg' && i<10){
+            while(img.fileFormat != 'image/jpeg' && i<10){
                 img = images[i];
                 i++;
             }
-            let uri = `${path}tmp.jpg`;
-            await downloadImage(img.url, uri);
+            // TODO: Replace with tempdir
+            let uri = path.join(dir,'tmp.jpg');
+            try{
+                try{
+                    uri = await downloadImage(img.link, uri);
+                }catch(err){
+                    console.log(err);
+                }
+            }catch(err){
+                console.log(err);
+            }
             return uri;
         })
         .catch(( err ) => {

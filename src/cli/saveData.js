@@ -104,13 +104,13 @@ function startSave( title ){
 }
 
 function checkSave( title){
-    const path = `./tmp/${title}.csv`;
-    return fs.existsSync(path);
+    const name = path.join(__dirname, `/tmp/${title}.csv`);
+    return fs.existsSync(name);
 }
 function removeSave( title ){
-    const path = `./tmp/${title}.csv`;
+    const name = path.join(__dirname, `/tmp/${title}.csv`);
     try{
-        fs.unlinkSync(path);
+        fs.unlinkSync(name);
         return true;
     }catch( err ){
         console.log(err);

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-# Same as cli.js, should be collapsed probably
+// Same as cli.js, should be collapsed probably
 require("dotenv").config()
 const clear = require('clear');
 const figlet = require('figlet');
