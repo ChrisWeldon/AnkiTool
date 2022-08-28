@@ -6,6 +6,9 @@ const Table = require('cli-table');
 
 // TODO: Clean this file up a bit. Error handling is weird
 
+const NODE_PATH = path.resolve(process.env.NODE_PATH);
+const SAVE_DIR = path.join(NODE_PATH, `saves`);
+
 const DELIMITER = 0x2C; // ','
 const NEWLINE = 0x0A;
 
@@ -50,9 +53,9 @@ function parseCSVEntry(b){
     };
 }
 
-
 function startSave( title ){
-    const name = path.join(__dirname, `/tmp/${title}.csv`);
+    const name = path.join(SAVE_DIR, `/${title}.csv`);
+
     const header = `input, mod, target\n`;
     if(!fs.existsSync(name)){
         fs.writeFileSync(name, header);
@@ -104,11 +107,11 @@ function startSave( title ){
 }
 
 function checkSave( title){
-    const name = path.join(__dirname, `/tmp/${title}.csv`);
+    const name = path.join(SAVE_DIR, `${title}.csv`);
     return fs.existsSync(name);
 }
 function removeSave( title ){
-    const name = path.join(__dirname, `/tmp/${title}.csv`);
+    const name = path.join(SAVE_DIR, `${title}.csv`);
     try{
         fs.unlinkSync(name);
         return true;

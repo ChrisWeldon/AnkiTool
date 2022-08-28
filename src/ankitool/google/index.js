@@ -1,3 +1,4 @@
+const tmp = require("tmp");
 const fs = require("fs");
 const path = require("path");
 const axios = require('axios')
@@ -18,14 +19,21 @@ async function downloadImage(url, filepath) {
 }
 
 async function callGoogleAPI(term){
-    const url = `https://customsearch.googleapis.com/customsearch/v1?cx=26c8d4546ff284e30&imgSize=MEDIUM&imgType=stock&q=bear&safe=high&searchType=image&key=${GOOGLE_IMAGE_SEARCH}`
+    const url = `https://customsearch.googleapis.com/customsearch/v1?cx=26c8d4546ff284e30&imgSize=MEDIUM&imgType=stock&q=${term}&safe=high&searchType=image&key=${GOOGLE_IMAGE_SEARCH}`
     return axios.get(url);
+}
+
+function initImageDir(){
+    const tmpobj = tmp.dirSync();
+    return {
+        get : () => tmpobj.name,
+        close: () => tmpobj.removeCallback()
+    }
 }
 
 async function getGoogleImage(input, dir){
     if(!CID || !GOOGLE_IMAGE_SEARCH){
         throw("Google Images API key not configured!");
-        // TODO: Ask at this moment if you want to configure the API key
     }
     
     return callGoogleAPI(input)
@@ -62,5 +70,6 @@ async function getGoogleImage(input, dir){
 
 
 module.exports = {
-    getGoogleImage
+    getGoogleImage,
+    initImageDir
 }
