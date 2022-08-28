@@ -24,7 +24,7 @@
 const fs = require('fs').promises;
 const path = require('path');
 const AnkiExport = require('anki-apkg-export').default;
-const { getGoogleImage } = require('../google');
+const { getGoogleImage, initImageDir } = require('../google');
 
 // apkg.addMedia('anki.png', fs.readFileSync('anki.png'));
 
@@ -90,12 +90,14 @@ async function Deck(request){
     const OUTPUT_DIR = process.env.output_dir || `./`;
     const OUTPUT_PATH = path.join(OUTPUT_DIR, `${deck_name}.apkg`);
     const { compBack, compFront, speakFront, speakBack } = card(request, style);
+    const tmpDir = initImageDir();
 
     let deck = {
         addCard: async ( word ) => {
             if(request.opts.includes("images")){
                 try{
-                    const uri = await getGoogleImage(word.targets.join(" "), path.join(__dirname, '/tmp/'));
+                    const uri = await getGoogleImage(word.targets.join(" "), 
+                        tmpDir.get());
                     apkg.addMedia(`${word.id}.jpg`, await fs.readFile(uri));
                     await fs.unlink(uri);
                 }catch(err){
@@ -119,6 +121,7 @@ async function Deck(request){
                     console.log(`Package has been generated: ${deck_name}.pkg`);
                 })
                 .catch(err => console.log(err.stack || err));
+                tmpDir.close();
                 return deck;
         }
     }

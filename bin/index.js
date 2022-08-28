@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // Same as cli.js, should be collapsed probably
 require("dotenv").config()
+const path = require('path');
 const clear = require('clear');
 const figlet = require('figlet');
 const { startCLi } = require('../src/cli');
@@ -10,11 +11,9 @@ clear();
 console.log(
   figlet.textSync('AnkiTool', { horizontalLayout: 'full' })
 );
-
 startCLi()
     .then(async function(res){
         const { words, ...opts } = res;
-
         Deck(opts)
             .then(async ( deck ) => {
                     for(const word of words){
@@ -22,7 +21,6 @@ startCLi()
                     }
                     deck.export();
             });
-
     })
     .catch(err => {
         console.error(err);
