@@ -24,6 +24,7 @@
     "clui": "^0.3.6",
     "dotenv": "^16.0.1",
     "figlet": "^1.5.2",
+    "i": "^0.3.7",
     "inquirer": "^8.2.4",
     "querystring": "^0.2.1",
     "string-similarity": "^4.0.4"
