@@ -1,6 +1,6 @@
 {
   "name": "anki-lang",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A cli to help language learners create flashcards in realtime",
   "main": "bin/index.js",
   "scripts": {
