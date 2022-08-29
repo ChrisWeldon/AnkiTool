@@ -3,6 +3,12 @@
   "version": "0.2.1",
   "description": "A cli to help language learners create flashcards in realtime",
   "main": "bin/index.js",
+  "keywords":[
+      "anki",
+      "language",
+      "translation",
+      "deepl"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "cli": "NODE_PATH=. node ./bin/index.js"
