@@ -6,7 +6,7 @@ const Table = require('cli-table');
 
 // TODO: Clean this file up a bit. Error handling is weird
 
-const NODE_PATH = path.resolve(process.env.NODE_PATH);
+const NODE_PATH = path.resolve(process.env.NODE_PATH || '.');
 const SAVE_DIR = path.join(NODE_PATH, `saves`);
 
 const DELIMITER = 0x2C; // ','
