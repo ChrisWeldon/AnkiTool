@@ -31,8 +31,11 @@ function getTargetsDeepL(input, request){
         data: querystring.stringify(payload),
         url,
     };
-    // convertt to Promise.resolve!
+    //TODO convert to Promise.resolve
     return new Promise(async function(accept, reject){
+        if(!API_KEY){
+            reject("Deepl API key not set");
+        }
         axios(options)
             .then(({ data }) => {
                 accept(data.translations.map((obj) => {
