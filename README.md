@@ -18,9 +18,8 @@ and www.dict.cc for language dictionaries.
 To run: `anki-tool`
 
 The initial run will prompt for your Google Search API key, your Google custom
-search CID, then for your Deepl API key. The Google Key and the CID are optional.
-*Coming soon: optional key for Deepl.*
-If you decide to leave the Google keys blank, then images will not be successfully
+search CID, then for your Deepl API key. The keys are optional, but limit 
+functionality if left blank. If you decide to leave the Google keys blank, then images will not be successfully
 added to cards. 
 
 To finish, enter in an empty word and you will be prompted to generate the deck.
