@@ -9,13 +9,18 @@
  *  name: <Language name>
  *  code: <code for language> used in language queries
  *  value: <English spelling of language> used in language queries
+ *  mods: {
+ *      <title of mod in dict.cc>: {
+ *          <articles>: <target lang>
+ *      }
+ *  }
  * }
  */ 
 module.exports =  [
-    { 
+    {   /* FRENCH */ 
         name: 'Français', code: 'FR',
         value:'french',
-        rank:10
+        rank:10,
         mods:{
             masculin:{
                 ia: 'un',
@@ -47,7 +52,7 @@ module.exports =  [
                 da: 'the',
                 ipl: 'some',
                 dpl: 'the'
-            }
+            },
             adjective:{},
             'adverb/adverbial':{},
             conjunction:{},

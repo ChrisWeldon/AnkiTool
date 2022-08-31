@@ -36,7 +36,7 @@ function cardPrompt(words, {save, ...opts}){
                 ])
                     .then(( promises ) => {
                         let total = [];
-
+                        // It is likely that some of these promises fail
                         if(promises[0].status=='fulfilled'){
                             // Deepl
                             total = total.concat(promises[0].value);

@@ -1,3 +1,12 @@
+/** module responsible for managing users .env variables.
+ *
+ * This module inquires about a users API keys, then also writes them,
+ * to the .env file for later use. This file works like a config.js, while also,
+ * prompting user input.
+ *
+ * @author Chris Evans
+ *
+ */
 const inquirer = require('inquirer');
 const dotenv = require('dotenv');
 const path = require('path');
