@@ -4,7 +4,7 @@ const path = require("path");
 const axios = require('axios')
 GOOGLE_IMAGE_SEARCH = process.env.GOOGLE_IMAGE_SEARCH; 
 CID = process.env.CID;
-
+// TODO: search in input language for more precise images
 async function downloadImage(url, filepath) {
     const response = await axios({
         url,

@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const langs = require('../langs');
 
 const MAX = 2;
-function parseTablePage($){
+function parseTablePage($, input_lang, target_lang){
     const table_element = $('div[id="maincontent"]');
     const parsed = [];
 
@@ -23,10 +23,14 @@ function parseTablePage($){
             .text().trim();
         row.find('var').remove();
 
+        let left_entry = row.find('td:nth-child(2)').text().trim().replace(/\s+/g, ' ');
+        let right_entry = row.find('td:nth-child(3)').text().trim().replace(/\s+/g, ' ');
+
+        // dict.cc displays languages alphabetically right to left regardless of search term
         parsed.push({
-            input: row.find('td:nth-child(2)').text().trim().replace(/\s+/g, ' '),
+            input: input_lang.rank > target_lang.rank ? left_entry : right_entry, 
             mod: ( mod!='' ? mod: undefined),
-            targets:[row.find('td:nth-child(3)').text().trim().replace(/\s+/g, ' ')]
+            targets: input_lang.rank > target_lang.rank ? right_entry : left_entry, 
         });
     }
     return parsed;
@@ -35,7 +39,6 @@ function parseTablePage($){
 function getTargetsDictCCTable(input_word, request){
     // Scrapes word from webpage and returns a promise with the translation and alternative inputs
 
-    // TODO: get
     const RETRIEVAL_URL = "https://"
         + langs.find((o)=>o.value==request.input_lang).code.toLowerCase()
         + '-'

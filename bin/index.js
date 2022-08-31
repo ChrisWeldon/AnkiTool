@@ -1,3 +1,5 @@
+/** The entry point into the cli.js
+ */
 #!/usr/bin/env node
 // Same as cli.js, should be collapsed probably
 require("dotenv").config()
