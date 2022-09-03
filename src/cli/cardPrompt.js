@@ -29,10 +29,10 @@ function cardPrompt(words, {save, ...opts}){
         .then( res => {
             if(res.word.length>0){
                 // Internet data retrieval step
+                // NOTE: no longer using browse page - not worth it
                 return Promise.allSettled([
                     getTargetsDeepL(res.word, opts),
                     getTargetsDictCCTable(res.word, opts),
-                    getTargetsDictCCBrowse(res.word, opts)
                 ])
                     .then(( promises ) => {
                         let total = [];
@@ -41,28 +41,26 @@ function cardPrompt(words, {save, ...opts}){
                             // Deepl
                             total = total.concat(promises[0].value);
                         }
-                        if(promises[1].status=='fulfilled'){
+                        if(promises[1].status=='fulfilled'){ 
                             // dict.cc tables
+                            //console.log(`dict.cc table ${ promises[1].value }`);
                             total = total.concat(promises[1].value);
                         }
-                        if(promises[2].status=='fulfilled'){
-                            // dict.cc
-                            total = total.concat(promises[2].value);
-                        }
 
-                        // select which words from the three promises to retain
+                        // All possible choices of translations
                         return total;
                     })
+
                     .then(( total ) => {
                         // Reduce/filter the picks available to user
                         total = total.filter(( word ) => {
                             if( word.input.length==0 ) return false;
                             return true;
                         })
-
                         
                         return targetPrompt(total);
                     })
+
                     .then(( picks ) => {
                         // Reduce the picked options
                         collapsed_words = [];
@@ -85,6 +83,7 @@ function cardPrompt(words, {save, ...opts}){
                         // add to words then repeat
                         return cardPrompt(words, opts);
                     })
+
                     .catch( err => {
                         console.log(err);
                         return cardPrompt(words, opts);

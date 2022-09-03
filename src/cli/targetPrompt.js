@@ -1,3 +1,9 @@
+/** cli/targetPrompt.js  
+ * A module for producing the prompt which displays translation options.
+ *
+ * @author Chris Evans
+ */
+
 const inquirer = require('inquirer');
 const clc = require('cli-color');
 
@@ -5,8 +11,8 @@ module.exports = function( pool ){
     const mod = clc.xterm(202);
     choices = pool.map((el, index) => {
         return {
-            name: `${mod(el.mod)} ${el.input} \u2192 ${el.targets.join('; ')}`,
-            short: `${el.input} \u2192 ${el.targets.join('; ')}`,
+            name: `${mod(el.input_mod)} ${el.input} \u2192 ${mod(el.target_mod)} ${el.targets}`,
+            short: `${el.input} \u2192 ${mod(el.target_mod)} ${el.targets}`,
             value: index
         }
     })
