@@ -1,7 +1,13 @@
+/** google/index.js barrel
+ * Module for gathering images from user's google custom search.
+ *
+ * @author Chris Evans
+ */
 const tmp = require("tmp");
 const fs = require("fs");
 const path = require("path");
 const axios = require('axios')
+
 GOOGLE_IMAGE_SEARCH = process.env.GOOGLE_IMAGE_SEARCH; 
 CID = process.env.CID;
 // TODO: search in input language for more precise images

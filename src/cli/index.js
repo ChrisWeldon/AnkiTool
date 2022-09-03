@@ -39,12 +39,13 @@ module.exports = {
                     request.save = startSave(request.deck_name);
                     // open recursive call to cardPrompt with load as
                     // starting point. 
+                    // TODO: Alter input_lang and target lang to be actual lang, pipeline
                     return cardPrompt(request.save.load(), request);
                 })
                 .then((words) => {
                     // The words are not encoded with an id, but one is needed
                     //  down the line for tmp file saving.
-                    //  TODO: to this in a better way
+                    //  TODO: to this in a better way, pipeline as well
                     request.words = words;
                     request.words.map(( word, i) => {
                         word.id = i;

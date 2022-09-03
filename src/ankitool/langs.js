@@ -23,41 +23,44 @@ module.exports =  [
         rank:10,
         mods:{
             masculin:{
-                ia: 'un',
-                da: 'le',
-                ipl: 'des',
-                dpl: 'les'
+                base: 'm.',
+                ia: 'un',   // indefinite article
+                da: 'le',   // definite article
+                ipl: 'des', // indefinite plural
+                dpl: 'les', // definit plural
             },
             féminin:{
+                base: 'f.',
                 ia: 'une',
                 da: 'la',
                 ipl: 'des',
                 dpl: 'les'
             },
-            adjective:{},
-            'adverb/adverbial':{},
-            conjunction:{},
-            pronoun:{},
-            'preposition/adpos.':{},
+            adjective:{ base: 'adj' },
+            'adverb/adverbial':{ base:'adv.' },
+            conjunction:{ base:'conj.' },
+            pronoun:{ base:'pron.'},
+            'preposition/adpos.':{ base:'prep.' },
         }
     },
-    { 
+    {   /* ENGLISH */ 
         name: 'English',
         code: 'EN',
         value:'english',
         rank:6,
         mods:{
             noun:{
+                base:'n.',
                 ia: 'a',
                 da: 'the',
                 ipl: 'some',
                 dpl: 'the'
             },
-            adjective:{},
-            'adverb/adverbial':{},
-            conjunction:{},
-            pronoun:{},
-            'preposition/adpos.':{},
+            adjective:{ base: 'adj' },
+            'adverb/adverbial':{ base:'adv.' },
+            conjunction:{ base:'conj.' },
+            pronoun:{ base:'pron.'},
+            'preposition/adpos.':{ base:'prep.' },
         }
     },
     { name: 'Español', code: 'ES', value:'spanish', rank:8, disabled:true},
