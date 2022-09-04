@@ -7,7 +7,6 @@ const targetPrompt = require('./targetPrompt');
 //  creating a lot of unexepcted behaviors.
 function cardPrompt(words, {save, ...opts}){
     // Handles the asking for words. Recursively mutates the input array
-
     const WORD_INPUT = [
         {
             name: 'word',
@@ -41,9 +40,8 @@ function cardPrompt(words, {save, ...opts}){
                             // Deepl
                             total = total.concat(promises[0].value);
                         }
-                        if(promises[1].status=='fulfilled'){ 
+                        if(promises[1].status=='fulfilled'){
                             // dict.cc tables
-                            //console.log(`dict.cc table ${ promises[1].value }`);
                             total = total.concat(promises[1].value);
                         }
 
@@ -57,8 +55,7 @@ function cardPrompt(words, {save, ...opts}){
                             if( word.input.length==0 ) return false;
                             return true;
                         })
-                        
-                        return targetPrompt(total);
+                        return targetPrompt(total, opts);
                     })
 
                     .then(( picks ) => {

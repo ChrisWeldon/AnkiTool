@@ -7,6 +7,7 @@ const cardPrompt = require('./cardPrompt');
 const configPrompt = require('./configPrompt');
 const { startSave, checkSave, removeSave } = require('./saveData');
 const inquirer = require('inquirer');
+const langs = require('../ankitool/langs');
 
 const KEEP_SAVE = [
     {
@@ -35,11 +36,13 @@ module.exports = {
                             removeSave(request.deck_name);
                         }
                     }
-                    
+                    // TODO: pipeline this
+                    request.input_lang = langs.find((o)=>o.value==request.input_lang);
+                    request.target_lang = langs.find((o)=>o.value==request.target_lang);
+
                     request.save = startSave(request.deck_name);
                     // open recursive call to cardPrompt with load as
                     // starting point. 
-                    // TODO: Alter input_lang and target lang to be actual lang, pipeline
                     return cardPrompt(request.save.load(), request);
                 })
                 .then((words) => {

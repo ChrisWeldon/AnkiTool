@@ -20,8 +20,8 @@ function getTargetsDeepL(input, request){
     let payload = {
         auth_key: API_KEY,
         text: input,
-        source_lang: langs.find((item) => item.value == request.input_lang).code.toUpperCase(),
-        target_lang: langs.find((item) => item.value == request.target_lang).code.toUpperCase()
+        source_lang: request.input_lang.code.toUpperCase(),
+        target_lang: request.target_lang.code.toUpperCase()
     };
 
     const url = 'https://api-free.deepl.com/v2/translate';

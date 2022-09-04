@@ -23,24 +23,24 @@ module.exports =  [
         rank:10,
         mods:{
             masculin:{
-                base: 'm.',
-                ia: 'un',   // indefinite article
-                da: 'le',   // definite article
-                ipl: 'des', // indefinite plural
-                dpl: 'les', // definit plural
+                base: 'm. ',
+                ia: 'un ',   // indefinite article
+                da: 'le ',   // definite article
+                ipl: 'des ', // indefinite plural
+                dpl: 'les ', // definit plural
             },
             féminin:{
-                base: 'f.',
-                ia: 'une',
-                da: 'la',
-                ipl: 'des',
-                dpl: 'les'
+                base: 'f. ',
+                ia: 'une ',
+                da: 'la ',
+                ipl: 'des ',
+                dpl: 'les '
             },
-            adjective:{ base: 'adj' },
-            'adverb/adverbial':{ base:'adv.' },
-            conjunction:{ base:'conj.' },
-            pronoun:{ base:'pron.'},
-            'preposition/adpos.':{ base:'prep.' },
+            adjective:{ base: 'adj. ' },
+            'adverb/adverbial':{ base:'adv. ' },
+            conjunction:{ base:'conj. ' },
+            pronoun:{ base:'pron. '},
+            'preposition/adpos.':{ base:'prep. ' },
         }
     },
     {   /* ENGLISH */ 
@@ -50,11 +50,11 @@ module.exports =  [
         rank:6,
         mods:{
             noun:{
-                base:'n.',
-                ia: 'a',
-                da: 'the',
-                ipl: 'some',
-                dpl: 'the'
+                base:'n. ',
+                ia: 'a ',
+                da: 'the ',
+                ipl: 'some ',
+                dpl: 'the '
             },
             adjective:{ base: 'adj' },
             'adverb/adverbial':{ base:'adv.' },
