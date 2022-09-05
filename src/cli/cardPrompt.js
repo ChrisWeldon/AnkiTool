@@ -58,8 +58,20 @@ function cardPrompt(words, {save, ...opts}){
                         return targetPrompt(total, opts);
                     })
 
+                    .then(( picks )=>{
+                        // TODO: Refactor this out during pipeline refactor
+                        // Some picks don't return an array and some do
+                        picks.forEach( ( pick ) => {
+                            if(!Array.isArray(pick.targets)){
+                                pick.targets = [ pick.targets ];
+                                pick.target_mod = [ pick.target_mod ]; // FIXME
+                            }
+                        })
+                        return picks;
+                    })
+
                     .then(( picks ) => {
-                        // Reduce the picked options
+                        // You want one card for all the options selected
                         collapsed_words = [];
                         picks.forEach(( pick ) => {
                             // find if a record for that input already exists
