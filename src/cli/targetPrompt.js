@@ -15,8 +15,8 @@ module.exports = function( pool, request ){
     const mod = clc.xterm(202);
     choices = pool.map((el, index) => {
         // deepl module does not use mods (doesn't provide part of speech)
-        const input_mod_text = el.input_mod ? mod(input_lang.mods[ el.input_mod ].base) : '';
-        const target_mod_text = el.target_mod ? mod(target_lang.mods[ el.target_mod ].base): '';
+        const input_mod_text = el.input_mod ? mod(input_lang.mods[ el.input_mod ].base()) : '';
+        const target_mod_text = el.target_mod ? mod(target_lang.mods[ el.target_mod ].base()): '';
         return {
             name: `${input_mod_text}${el.input} \u2192 ${target_mod_text}${el.targets}`,
             short: `${el.input} \u2192 ${target_mod_text}${el.targets}`,

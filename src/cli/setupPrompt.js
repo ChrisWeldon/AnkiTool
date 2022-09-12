@@ -75,7 +75,30 @@ module.exports = function(){
                 disabled: true
             }
         ]
-      }
+    },
+    {
+        name: "article",
+        message: "Word article:",
+        type: 'list',
+        choices: [
+            {
+                name: 'Base',
+                short: 'base',
+                value: 'base'
+            },
+            {
+                name: 'Indefinite Singular',
+                short: 'Indefinite',
+                value: 'is'
+            },
+            {
+                name: 'Definite Singular',
+                short: 'Definite',
+                value: 'ds'
+            }
+        ]
+    }
+        
     ];
     return inquirer.prompt(questions);
 }

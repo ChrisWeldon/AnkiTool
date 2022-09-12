@@ -100,7 +100,7 @@ function getTargetsDictCCTable(input_word, request){    // request are the optio
         	)
             .then((data) => {
                 // word exists, parse the page for the options
-                const $ = cheerio.load(data.data, null, false);
+                const $ = cheerio.load(data.data, { decodeEntities: false }, false);
                 var parsed = parseTablePage($, request);
 
                 // trim results;

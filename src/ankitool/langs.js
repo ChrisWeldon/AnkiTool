@@ -16,6 +16,8 @@
  *  }
  * }
  */ 
+// TODO: pull deepl to find aspiratd h sounds le hibou vshospital
+const vowels = ['a', 'e', 'i', 'o', 'u'];
 module.exports =  [
     {   /* FRENCH */ 
         name: 'Français', code: 'FR',
@@ -23,24 +25,35 @@ module.exports =  [
         rank:10,
         mods:{
             masculin:{
-                base: 'm. ',
-                ia: 'un ',   // indefinite article
-                da: 'le ',   // definite article
-                ipl: 'des ', // indefinite plural
-                dpl: 'les ', // definit plural
+                base: () => 'm. ',
+                is: () =>  'un ',   // indefinite article
+                ds: (w) => {
+                    if (vowels.includes(w.charAt(0).toLowerCase())){
+                       return "[m.] l'";
+                    }
+                    return 'le ';
+                },   // definite article
+                ipl: () => '[m.] des ', // indefinite plural
+                dpl: () => '[m.] les ', // definit plural
             },
-            féminin:{
-                base: 'f. ',
-                ia: 'une ',
-                da: 'la ',
-                ipl: 'des ',
-                dpl: 'les '
+            'féminin':{
+                base: () => 'f. ',
+                is: () => 'une ',
+                ds: (w) => {
+                    console.log("féminin ds called");
+                    if (vowels.includes(w.charAt(0).toLowerCase())){
+                       return "[f.] l'";
+                    }
+                    return 'la ';
+                },   // definite article
+                ipl: () => '[f.] des ',
+                dpl: () => '[f.] les '
             },
-            adjective:{ base: 'adj. ' },
-            'adverb/adverbial':{ base:'adv. ' },
-            conjunction:{ base:'conj. ' },
-            pronoun:{ base:'pron. '},
-            'preposition/adpos.':{ base:'prep. ' },
+            adjective:{ base: () => 'adj. ' },
+            'adverb/adverbial':{ base:() => 'adv. ' },
+            conjunction:{ base:() => 'conj. ' },
+            pronoun:{ base:() => 'pron. '},
+            'preposition/adpos.':{ base:() => 'prep. ' },
         }
     },
     {   /* ENGLISH */ 
@@ -50,17 +63,17 @@ module.exports =  [
         rank:6,
         mods:{
             noun:{
-                base:'n. ',
-                ia: 'a ',
-                da: 'the ',
-                ipl: 'some ',
-                dpl: 'the '
+                base:() => 'n. ',
+                is:() => 'a ',
+                ds: () => 'the ',
+                ipl:()=> 'some ',
+                dpl:()=> 'the '
             },
-            adjective:{ base: 'adj' },
-            'adverb/adverbial':{ base:'adv.' },
-            conjunction:{ base:'conj.' },
-            pronoun:{ base:'pron.'},
-            'preposition/adpos.':{ base:'prep.' },
+            adjective:{ base:() => 'adj' },
+            'adverb/adverbial':{ base:() =>'adv.' },
+            conjunction:{ base:() =>'conj.' },
+            pronoun:{ base:() =>'pron.'},
+            'preposition/adpos.':{ base:() =>'prep.' },
         }
     },
     { name: 'Español', code: 'ES', value:'spanish', rank:8, disabled:true},
