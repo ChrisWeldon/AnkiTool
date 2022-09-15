@@ -26,28 +26,27 @@ module.exports =  [
         mods:{
             masculin:{
                 base: () => 'm. ',
-                is: () =>  'un ',   // indefinite article
+                is: () => 'un ',   // indefinite article
                 ds: (w) => {
                     if (vowels.includes(w.charAt(0).toLowerCase())){
-                       return "[m.] l'";
+                       return "l'";
                     }
                     return 'le ';
                 },   // definite article
-                ipl: () => '[m.] des ', // indefinite plural
-                dpl: () => '[m.] les ', // definit plural
+                ipl: () => 'des ', // indefinite plural
+                dpl: () => 'les ', // definit plural
             },
-            'féminin':{
+            féminin:{
                 base: () => 'f. ',
                 is: () => 'une ',
                 ds: (w) => {
-                    console.log("féminin ds called");
                     if (vowels.includes(w.charAt(0).toLowerCase())){
-                       return "[f.] l'";
+                       return "l'";
                     }
                     return 'la ';
                 },   // definite article
-                ipl: () => '[f.] des ',
-                dpl: () => '[f.] les '
+                ipl: () => 'des ',
+                dpl: () => 'les '
             },
             adjective:{ base: () => 'adj. ' },
             'adverb/adverbial':{ base:() => 'adv. ' },
@@ -63,17 +62,17 @@ module.exports =  [
         rank:6,
         mods:{
             noun:{
-                base:() => 'n. ',
-                is:() => 'a ',
-                ds: () => 'the ',
-                ipl:()=> 'some ',
-                dpl:()=> 'the '
+                base:'n. ',
+                is: 'a ',
+                ds: 'the ',
+                ipl: 'some ',
+                dpl: 'the '
             },
-            adjective:{ base:() => 'adj' },
-            'adverb/adverbial':{ base:() =>'adv.' },
-            conjunction:{ base:() =>'conj.' },
-            pronoun:{ base:() =>'pron.'},
-            'preposition/adpos.':{ base:() =>'prep.' },
+            adjective:{ base: 'adj' },
+            'adverb/adverbial':{ base:'adv.' },
+            conjunction:{ base:'conj.' },
+            pronoun:{ base:'pron.'},
+            'preposition/adpos.':{ base:'prep.' },
         }
     },
     { name: 'Español', code: 'ES', value:'spanish', rank:8, disabled:true},

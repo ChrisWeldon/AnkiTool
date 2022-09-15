@@ -46,7 +46,6 @@ background-color: #FFFFFF;}
 `
 function article(word, request, lang, mod){
     if(request[lang].mods[mod] == undefined){
-        console.log(`Unkown Mod: ${mod}`);
         return '';
     } 
     return request[lang].mods[mod][request.article](word);
@@ -74,19 +73,19 @@ function card(request, style){
             return `<div class="card">
                 <span id="gender">${article(input, request, 'input_lang', input_mod)}</span>${input}</div><style>${style}</style>`
         },
-        speakBack:({ input, input_mod, id }) => {
+        speakBack:({ input, input_mod }) => {
             return `<div class="card">
                 <span style="color:maroon">
                     ${ input_mod ? `<span id="gender"> ${article(input, request, 'input_lang', input_mod)}</span>`: ``}${input}
                 </span>
-                ${ request.opts.includes('images') ? `<br> <img src="${id}.jpg"> <br>`: ``}
             </div>
             <style> ${style} </style>`
         },
-        speakFront: ({ targets, target_mod }) => {
+        speakFront: ({ targets, target_mod, id}) => {
             // called image.jpg because there is only one image
             return `<div class="card">
                 ${ targets.join("; ")}
+                ${ request.opts.includes('images') ? `<br> <img src="${id}.jpg"> <br>`: ``}
             </div><style>${style}</style>`
         }
     }

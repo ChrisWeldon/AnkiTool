@@ -1,9 +1,8 @@
-/* A module containing functions for retrieving Deepl translations.
+/* deepl/retrieve.js
+ * A module containing functions for retrieving Deepl translations.
  *
  * @author: Chris Evans
  */
-
-
 const axios = require('axios');
 const querystring = require('querystring');
 const langs = require('../langs');
@@ -15,7 +14,7 @@ function getTargetsDeepL(input, request){
      * @param:  input:String - The sentence to be translated
      * @param: request:Object - An object containing various options for translation
      *
-     * @return: Promise - Returns aa promise which passes a list of potential translations
+     * @return: Promise - Returns a promise which passes a list of potential translations
      */
     let payload = {
         auth_key: API_KEY,
