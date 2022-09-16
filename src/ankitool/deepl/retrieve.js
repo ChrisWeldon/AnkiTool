@@ -40,7 +40,7 @@ function getTargetsDeepL(input, request){
                 accept(data.translations.map((obj) => {
                         return {
                             input,
-                            targets: [obj.text]
+                            targets: [obj.text],
                         };
                     })
                 );

@@ -66,7 +66,9 @@ function startSave( title ){
             try{
                 fs.appendFileSync(
                     name,
-                    `${input},${input_mod},${targets.join(';')},${target_mod.join(';')}\n`,
+                    `${input},${input_mod ? input_mod : ''},${targets.join(';')},${target_mod ? 
+                            target_mod.join(';') :
+                            ''}\n`,
                     { 
                         encoding: "latin1",
                         flag: "a"

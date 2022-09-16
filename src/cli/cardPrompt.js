@@ -46,6 +46,7 @@ function cardPrompt(words, {save, ...opts}){
                         }
 
                         // All possible choices of translations
+                        console.log(total)
                         return total;
                     })
 
@@ -76,6 +77,7 @@ function cardPrompt(words, {save, ...opts}){
                         picks.forEach(( pick ) => {
                             // find if a record for that input already exists
                             record = collapsed_words.find(( r ) => r.input == pick.input);
+                            // augment the picked translations to avoid duplicates
                             if(record){
                                 record.targets = record.targets.concat(pick.targets);
                                 record.mod = pick.mod ? pick.mod : record.mod;
