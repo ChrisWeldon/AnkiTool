@@ -109,7 +109,7 @@ function getTargetsDictCCTable(input_word, request){    // request are the optio
             })
             .catch((err) => {
                 // Word might not exist
-                console.log(err);
+                console.log('Dict.cc No word');
                 reject(err);
             })
     });

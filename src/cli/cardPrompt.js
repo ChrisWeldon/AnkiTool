@@ -33,6 +33,7 @@ function cardPrompt(words, {save, ...opts}){
                     getTargetsDeepL(res.word, opts),
                     getTargetsDictCCTable(res.word, opts),
                 ])
+
                     .then(( promises ) => {
                         let total = [];
                         // It is likely that some of these promises fail
@@ -44,13 +45,13 @@ function cardPrompt(words, {save, ...opts}){
                             // dict.cc tables
                             total = total.concat(promises[1].value);
                         }
-
                         // All possible choices of translations
                         return total;
                     })
 
+                    // Manage available options
                     .then(( total ) => {
-                        // Reduce/filter the picks available to user
+                        // Filter the words by length
                         total = total.filter(( word ) => {
                             if( word.input.length==0 ) return false;
                             return true;
@@ -58,9 +59,10 @@ function cardPrompt(words, {save, ...opts}){
                         return targetPrompt(total, opts);
                     })
 
+                    // Manage selected options
                     .then(( picks )=>{
                         // TODO: Refactor this out during pipeline refactor
-                        // Some picks don't return an array and some do
+                        // array-ify the targets
                         picks.forEach( ( pick ) => {
                             if(!Array.isArray(pick.targets)){
                                 pick.targets = [ pick.targets ];
@@ -69,7 +71,8 @@ function cardPrompt(words, {save, ...opts}){
                         })
                         return picks;
                     })
-
+                
+                    // Combine all the options into one card object
                     .then(( picks ) => {
                         // You want one card for all the options selected
                         collapsed_words = [];
@@ -105,6 +108,7 @@ function cardPrompt(words, {save, ...opts}){
                         if(res.done){
                             return words;
                         }else{
+                            opts.save = save;
                             return cardPrompt(words, opts);
                         }
                     });
