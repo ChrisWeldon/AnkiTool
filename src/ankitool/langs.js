@@ -62,19 +62,53 @@ module.exports =  [
         rank:6,
         mods:{
             noun:{
-                base:'n. ',
-                is: 'a ',
-                ds: 'the ',
-                ipl: 'some ',
-                dpl: 'the '
+                base:() => 'n. ',
+                is: () => 'a ',
+                ds: () => 'the ',
+                ipl: () => 'some ',
+                dpl: () => 'the '
             },
-            adjective:{ base: 'adj' },
-            'adverb/adverbial':{ base:'adv.' },
-            conjunction:{ base:'conj.' },
-            pronoun:{ base:'pron.'},
-            'preposition/adpos.':{ base:'prep.' },
+            adjective:{ base: () => 'adj' },
+            'adverb/adverbial':{ base:() => 'adv.' },
+            conjunction:{ base:() => 'conj.' },
+            pronoun:{ base:() => 'pron.'},
+            'preposition/adpos.':{ base:() => 'prep.' },
         }
     },
+    { /* GERMAN */
+        name: 'Deutsch',
+        code: 'DE',
+        value:'german',
+        rank:4,
+        mods:{
+            "der - männlich (Maskulinum)":{
+                base: () => 'm. ',
+                is: () => 'ein ',   // indefinite article
+                ds: (w) => 'der ',   // definite article
+                ipl: () => 'die ', // indefinite plural
+                dpl: () => 'die ', // definit plural
+            },
+            "die - weiblich (Femininum)":{
+                base: () => 'f. ',
+                is: () => 'die ',
+                ds: (w) => 'eine ',   // definite article
+                ipl: () => ' ',
+                dpl: () => 'die '
+            },
+            "das - sächlich (Neutrum)":{
+                base: () => 'n. ',
+                is: () => 'ein ',
+                ds: (w) => 'ein',   // definite article
+                ipl: () => ' ',
+                dpl: () => 'die '
+            },
+            adjective:{ base: () => 'adj. ' },
+            'adverb/adverbial':{ base:() => 'adv. ' },
+            conjunction:{ base:() => 'conj. ' },
+            pronoun:{ base:() => 'pron. '},
+            'preposition/adpos.':{ base:() => 'prep. ' },
+        },
+        disabled: true
+    },
     { name: 'Español', code: 'ES', value:'spanish', rank:8, disabled:true},
-    { name: 'Deutsch', code: 'DE', value:'german', rank:4, disabled:true}
 ]

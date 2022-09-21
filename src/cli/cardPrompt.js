@@ -46,7 +46,6 @@ function cardPrompt(words, {save, ...opts}){
                         }
 
                         // All possible choices of translations
-                        console.log(total)
                         return total;
                     })
 
