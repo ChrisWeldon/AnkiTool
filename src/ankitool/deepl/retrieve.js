@@ -1,9 +1,8 @@
-/* A module containing functions for retrieving Deepl translations.
+/* deepl/retrieve.js
+ * A module containing functions for retrieving Deepl translations.
  *
  * @author: Chris Evans
  */
-
-
 const axios = require('axios');
 const querystring = require('querystring');
 const langs = require('../langs');
@@ -15,13 +14,13 @@ function getTargetsDeepL(input, request){
      * @param:  input:String - The sentence to be translated
      * @param: request:Object - An object containing various options for translation
      *
-     * @return: Promise - Returns aa promise which passes a list of potential translations
+     * @return: Promise - Returns a promise which passes a list of potential translations
      */
     let payload = {
         auth_key: API_KEY,
         text: input,
-        source_lang: langs.find((item) => item.value == request.input_lang).code.toUpperCase(),
-        target_lang: langs.find((item) => item.value == request.target_lang).code.toUpperCase()
+        source_lang: request.input_lang.code.toUpperCase(),
+        target_lang: request.target_lang.code.toUpperCase()
     };
 
     const url = 'https://api-free.deepl.com/v2/translate';
@@ -41,7 +40,7 @@ function getTargetsDeepL(input, request){
                 accept(data.translations.map((obj) => {
                         return {
                             input,
-                            targets: [obj.text]
+                            targets: [obj.text],
                         };
                     })
                 );

@@ -1,4 +1,7 @@
-/* Module for retrieving target word translations from Dict.cc Browse page
+// DEPRECATING THIS MODULE - it is repetative and difficult to maintain 
+/** dictcc/browsePage.js 
+ *
+ * Module for retrieving target word translations from Dict.cc Browse page
  *
  * This module asynchronously retrieves the page, and parses the results
  * in two parsing steps. First, parses/lexes the html into a stream of tokens.
@@ -134,7 +137,6 @@ function getTargetsDictCCBrowse(input_word, request){
         + "-"
         + request.target_lang
         + "/" + input_word.trim() + ".html"
-
 
     return new Promise(function(accept, reject){
         axios.get(

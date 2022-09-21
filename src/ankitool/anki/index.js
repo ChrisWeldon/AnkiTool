@@ -37,44 +37,55 @@ color: black;
 background-color: #FFFFFF;}
 
 #gender {
-    font-style: italic;
+    font-style: bold;
 }
 
 .card1 { background-color: #FFFFFF; }
 .card2 { background-color: #FFFFFF; }
 
 `
+function article(word, request, lang, mod){
+    if(request[lang].mods[mod] == undefined){
+        return '';
+    } 
+    return request[lang].mods[mod][request.article](word);
+}
 
-function card(options, style){
+function card(request, style){
     // A card closure for applying styling and cli options
     return {
-        compBack: ({ mod, targets, id }) => {
-            // FIXME: picture should be an img tag with picture as source
+        compBack: ({ target_mod, targets, id }) => {
             return `<div class="card">
-                ${ mod ? `<span id="gender">${mod}</span> <br>`: ``}
-                <span style="color:maroon">
-                    ${targets.join("; ")}
-                </span>    
-                ${ options.opts.includes('images') ? `<br> <img src="${id}.jpg"> <br>`: ``}
+                ${
+                    targets.map(( t, i ) => {
+                        return `${ target_mod ? 
+                            article(t, request, 'target_lang', target_mod[i]) : ""} 
+                            <span style="color:maroon">
+                                ${t}
+                            </span>`
+                    }).join("; ")
+                }
+                ${ request.opts.includes('images') ? `<br> <img src="${id}.jpg"> <br>`: ``}
             </div>
             <style> ${style} </style>`
         },
-        compFront: ({ input }) => {
-            return `<div class="card">${input}</div><style>${style}</style>`
+        compFront: ({ input, input_mod}) => {
+            return `<div class="card">
+                <span id="gender">${article(input, request, 'input_lang', input_mod)}</span>${input}</div><style>${style}</style>`
         },
-        speakBack:({ input, mod, id }) => {
+        speakBack:({ input, input_mod }) => {
             return `<div class="card">
                 <span style="color:maroon">
-                    ${input} ${ mod ? `<span id="gender"> ${mod}</span> <br>`: ``}
+                    ${ input_mod ? `<span id="gender"> ${article(input, request, 'input_lang', input_mod)}</span>`: ``}${input}
                 </span>
-                ${ options.opts.includes('images') ? `<br> <img src="${id}.jpg"> <br>`: ``}
             </div>
             <style> ${style} </style>`
         },
-        speakFront: ({ targets }) => {
+        speakFront: ({ targets, target_mod, id}) => {
             // called image.jpg because there is only one image
             return `<div class="card">
                 ${ targets.join("; ")}
+                ${ request.opts.includes('images') ? `<br> <img src="${id}.jpg"> <br>`: ``}
             </div><style>${style}</style>`
         }
     }
@@ -94,23 +105,27 @@ async function Deck(request){
 
     let deck = {
         addCard: async ( word ) => {
-            if(request.opts.includes("images")){
-                try{
-                    const uri = await getGoogleImage(word.targets.join(" "), 
-                        tmpDir.get());
-                    apkg.addMedia(`${word.id}.jpg`, await fs.readFile(uri));
-                    await fs.unlink(uri);
-                }catch(err){
-                    console.log(err);
+            try{
+                if(request.opts.includes("images")){
+                    try{
+                        const uri = await getGoogleImage(word.targets.join(" "), 
+                            tmpDir.get());
+                        apkg.addMedia(`${word.id}.jpg`, await fs.readFile(uri));
+                        await fs.unlink(uri);
+                    }catch(err){
+                        console.log(err);
+                    }
                 }
+                if(request.opts.includes('speak')){
+                    apkg.addCard(speakFront(word), speakBack(word));
+                }
+                if(request.opts.includes('comp')){
+                    apkg.addCard(compFront(word), compBack(word));
+                }
+                return deck
+            }catch(err){
+                console.log(err);
             }
-            if(request.opts.includes('speak')){
-                apkg.addCard(speakFront(word), speakBack(word));
-            }
-            if(request.opts.includes('comp')){
-                apkg.addCard(compFront(word), compBack(word));
-            }
-            return deck
         },
         export: () => {
             apkg.save()
@@ -120,7 +135,7 @@ async function Deck(request){
                 .then(res => {
                     console.log(`Package has been generated: ${deck_name}.pkg`);
                 })
-                .catch(err => console.log(err.stack || err));
+                .catch(err => console.log(err));
                 tmpDir.close();
                 return deck;
         }

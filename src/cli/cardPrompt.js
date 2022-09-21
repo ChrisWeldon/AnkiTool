@@ -7,7 +7,6 @@ const targetPrompt = require('./targetPrompt');
 //  creating a lot of unexepcted behaviors.
 function cardPrompt(words, {save, ...opts}){
     // Handles the asking for words. Recursively mutates the input array
-
     const WORD_INPUT = [
         {
             name: 'word',
@@ -29,14 +28,15 @@ function cardPrompt(words, {save, ...opts}){
         .then( res => {
             if(res.word.length>0){
                 // Internet data retrieval step
+                // NOTE: no longer using browse page - not worth it
                 return Promise.allSettled([
                     getTargetsDeepL(res.word, opts),
                     getTargetsDictCCTable(res.word, opts),
-                    getTargetsDictCCBrowse(res.word, opts)
                 ])
+
                     .then(( promises ) => {
                         let total = [];
-
+                        // It is likely that some of these promises fail
                         if(promises[0].status=='fulfilled'){
                             // Deepl
                             total = total.concat(promises[0].value);
@@ -45,30 +45,41 @@ function cardPrompt(words, {save, ...opts}){
                             // dict.cc tables
                             total = total.concat(promises[1].value);
                         }
-                        if(promises[2].status=='fulfilled'){
-                            // dict.cc
-                            total = total.concat(promises[2].value);
-                        }
-
-                        // select which words from the three promises to retain
+                        // All possible choices of translations
                         return total;
                     })
+
+                    // Manage available options
                     .then(( total ) => {
-                        // Reduce/filter the picks available to user
+                        // Filter the words by length
                         total = total.filter(( word ) => {
                             if( word.input.length==0 ) return false;
                             return true;
                         })
-
-                        
-                        return targetPrompt(total);
+                        return targetPrompt(total, opts);
                     })
+
+                    // Manage selected options
+                    .then(( picks )=>{
+                        // TODO: Refactor this out during pipeline refactor
+                        // array-ify the targets
+                        picks.forEach( ( pick ) => {
+                            if(!Array.isArray(pick.targets)){
+                                pick.targets = [ pick.targets ];
+                                pick.target_mod = [ pick.target_mod ]; // FIXME
+                            }
+                        })
+                        return picks;
+                    })
+                
+                    // Combine all the options into one card object
                     .then(( picks ) => {
-                        // Reduce the picked options
+                        // You want one card for all the options selected
                         collapsed_words = [];
                         picks.forEach(( pick ) => {
                             // find if a record for that input already exists
                             record = collapsed_words.find(( r ) => r.input == pick.input);
+                            // augment the picked translations to avoid duplicates
                             if(record){
                                 record.targets = record.targets.concat(pick.targets);
                                 record.mod = pick.mod ? pick.mod : record.mod;
@@ -85,6 +96,7 @@ function cardPrompt(words, {save, ...opts}){
                         // add to words then repeat
                         return cardPrompt(words, opts);
                     })
+
                     .catch( err => {
                         console.log(err);
                         return cardPrompt(words, opts);
@@ -96,6 +108,7 @@ function cardPrompt(words, {save, ...opts}){
                         if(res.done){
                             return words;
                         }else{
+                            opts.save = save;
                             return cardPrompt(words, opts);
                         }
                     });

@@ -55,17 +55,20 @@ function parseCSVEntry(b){
 
 function startSave( title ){
     const name = path.join(SAVE_DIR, `/${title}.csv`);
-
-    const header = `input, mod, target\n`;
+    // TODO: make version transporter to manage save formats on different
+    //  versions. Also make JSON file for each save with metadata
+    const header = `input, input_mod, targets, target_mod\n`;
     if(!fs.existsSync(name)){
         fs.writeFileSync(name, header);
     }
     return {
-        appendWord: ({ input, mod, targets }) => {
+        appendWord: ({ input, input_mod, targets, target_mod }) => {
             try{
                 fs.appendFileSync(
-                    name, 
-                    `${input},${mod},${targets.join(';')}\n`,
+                    name,
+                    `${input},${input_mod ? input_mod : ''},${targets.join(';')},${target_mod ? 
+                            target_mod.join(';') :
+                            ''}\n`,
                     { 
                         encoding: "latin1",
                         flag: "a"
@@ -93,8 +96,9 @@ function startSave( title ){
                     words.push(
                         {
                             input: row[0],
-                            mod: row[1],
-                            targets: row[2].split(";")
+                            input_mod: row[1],
+                            targets: row[2].split(";"),
+                            target_mod: row[3].split(';')
                         }
                     )
                 }
