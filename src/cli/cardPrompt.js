@@ -29,6 +29,8 @@ function cardPrompt(words, {save, ...opts}){
             if(res.word.length>0){
                 // Internet data retrieval step
                 // NOTE: no longer using browse page - not worth it
+                
+                console.log(opts)
                 return Promise.allSettled([
                     getTargetsDeepL(res.word, opts),
                     getTargetsDictCCTable(res.word, opts),
