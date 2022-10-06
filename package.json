@@ -1,5 +1,5 @@
 {
-  "name": "anki-lang",
+  "name": "anki-tool",
   "version": "0.3.0",
   "description": "A cli to help language learners create flashcards in realtime",
   "main": "bin/index.js",
@@ -14,7 +14,7 @@
     "cli": "NODE_PATH=. node ./bin/index.js"
   },
   "bin": {
-    "anki-tool": "./bin/index.js"
+    "anki-lang": "./bin/index.js"
   },
   "author": "Christopher Evans",
   "license": "ISC",
