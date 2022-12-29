@@ -1,5 +1,6 @@
-/** 
+/** Entry point for CLI tool usage of deck creator
  *
+ * @author Chris Evans 
  */
 
 const setupPrompt = require('./setupPrompt');
@@ -29,7 +30,6 @@ module.exports = {
             setupPrompt()
                 .then(async answers => {
                     request = answers;
-                    console.log(request);
                     if(checkSave(request.deck_name)){
                         // Prompt for deletion of existing save
                         const { keep_save } = await inquirer.prompt(KEEP_SAVE)

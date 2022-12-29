@@ -17,14 +17,14 @@
  * }
  */ 
 
-type LanguageName = 'Français' | 'English' | 'Español' | 'Deutsch' ;
-type LanguageCode = 'FR' | 'EN' | 'ES' | 'DE';
-interface LanguageMod{
+export type LanguageName = 'Français' | 'English' | 'Español' | 'Deutsch' ;
+export type LanguageCode = 'FR' | 'EN' | 'ES' | 'DE';
+export interface LanguageMod{
     base: ((word: string) => string) | (() => string),
     [key: string]: ((word: string) => string) | (() => string),
 }
 
-type Language = {
+export type Language = {
     name: LanguageName,
     code: LanguageCode,
     value: string,
@@ -129,4 +129,4 @@ let languages: Language[] = [
     { name: 'Español', code: 'ES', value:'spanish', rank:8, disabled:true, mods:{}},
 ];
 
-module.exports = languages;
+export default languages as Language[];

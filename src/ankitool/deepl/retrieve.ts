@@ -1,10 +1,11 @@
-import { AxiosResponse } from "axios";
-
 /* deepl/retrieve.js
  * A module containing functions for retrieving Deepl translations.
  *
  * @author: Chris Evans
  */
+import { WordRequestOptions } from "../globaltypes";
+import { AxiosResponse } from "axios";
+
 const querystring = require('querystring');
 const axios = require('axios');
 
@@ -19,7 +20,6 @@ function getTargetsDeepL(input: string, request: WordRequestOptions){
      * @return: Promise - Returns a promise which passes a list of potential translations
     */
     if(typeof API_KEY == undefined){
-        console.log("API KEY BROKEN")
         return Promise.reject("Deepl API key not set")
     }
 
@@ -55,6 +55,4 @@ function getTargetsDeepL(input: string, request: WordRequestOptions){
     })
 };
 
-module.exports = {
-    getTargetsDeepL
-};
+export { getTargetsDeepL };

@@ -30,6 +30,7 @@ function cardPrompt(words, {save, ...opts}){
                 // Internet data retrieval step
                 // NOTE: no longer using browse page - not worth it
                 
+                console.log(opts);
                 return Promise.allSettled([
                     getTargetsDeepL(res.word, opts),
                     getTargetsDictCCTable(res.word, opts),
