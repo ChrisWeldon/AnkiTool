@@ -29,6 +29,7 @@ module.exports = {
             setupPrompt()
                 .then(async answers => {
                     request = answers;
+                    console.log(request);
                     if(checkSave(request.deck_name)){
                         // Prompt for deletion of existing save
                         const { keep_save } = await inquirer.prompt(KEEP_SAVE)

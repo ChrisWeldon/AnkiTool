@@ -69,7 +69,7 @@ module.exports = function(){
                 disabled: true
             },
             {
-                name: 'Incude audio ( your target language)',
+                name: 'Include audio ( your target language)',
                 short: 'Audio',
                 value: 'audio',
                 disabled: true
