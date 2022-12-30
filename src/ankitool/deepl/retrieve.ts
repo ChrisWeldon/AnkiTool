@@ -3,15 +3,20 @@
  *
  * @author: Chris Evans
  */
-import { WordRequestOptions } from "../globaltypes";
 import { AxiosResponse } from "axios";
 
 const querystring = require('querystring');
 const axios = require('axios');
 
-const API_KEY: string | undefined = process.env.DEEPL_API_KEY; 
+export type DeeplTranslation= {
+    input: string, 
+    targets: string[]
+}
+export type DeeplResponseObject = DeeplTranslation[];
 
-function getTargetsDeepL(input: string, request: WordRequestOptions){
+
+function getTargetsDeepL(input: string, request: WordRequestOptions): Promise<DeeplResponseObject>{
+    const API_KEY: string | undefined = process.env.DEEPL_API_KEY; 
     /* Retrieves translation of input word via Deepl
      *
      * @param:  input: string - The sentence to be translated
@@ -22,7 +27,6 @@ function getTargetsDeepL(input: string, request: WordRequestOptions){
     if(typeof API_KEY == undefined){
         return Promise.reject("Deepl API key not set")
     }
-
     let payload = {
         auth_key: API_KEY as string,
         text: input,

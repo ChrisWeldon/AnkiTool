@@ -2,6 +2,7 @@ const { getTargetsDictCCBrowse, getTargetsDictCCTable  } = require('./dictcc');
 const { getTargetsDeepL } = require('./deepl/retrieve');
 const { Deck } = require('./anki');
 const { getGoogleImage } = require('./google');
+const languages = require('./langs');
 
 module.exports = {
     getTargetsDictCCBrowse,
@@ -9,6 +10,7 @@ module.exports = {
     getTargetsDeepL,
     getGoogleImage,
     Deck,
+    languages
 }
 
 // TODO: change targets terminology. It is used currently meaning "the target

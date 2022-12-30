@@ -1,3 +1,4 @@
+"use strict";
 /* A module for managing the quirks and features of different languages so
  * that they can be handled in a programmatic way.
  *
@@ -16,6 +17,7 @@
  *  }
  * }
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 // TODO: pull deepl to find aspiratd h sounds le hibou vs hospital
 var vowels = ['a', 'e', 'i', 'o', 'u'];
 var languages = [
@@ -112,4 +114,4 @@ var languages = [
     },
     { name: 'Español', code: 'ES', value: 'spanish', rank: 8, disabled: true, mods: {} },
 ];
-module.exports = languages;
+exports.default = languages;

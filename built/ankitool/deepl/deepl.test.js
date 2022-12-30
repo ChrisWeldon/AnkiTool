@@ -1,3 +1,4 @@
+"use strict";
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,66 +35,42 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var _this = this;
-/* dictcc.test.js
- * Test Dict.cc webpage scraper
- */
-var AJV = require('ajv');
-var ajv = new AJV();
-var getTargetsDictCCTable = require("../tablePage").getTargetsDictCCTable;
-var opts = {
-    input_lang: {
-        name: 'Français',
-        code: 'FR',
-        value: 'french',
-        rank: 10,
-        mods: {}
-    },
-    target_lang: {
-        name: 'English',
-        code: 'EN',
-        value: 'english',
-        rank: 6,
-        mods: {}
-    },
-    deck_name: 'jestdeck',
-    opts: ['speak', 'comp', 'images'],
-    article: 'is'
-};
-test("getTargetsDictCCTable ERROR", function () {
-    //expect(async () => await getTargetsDictCCTable()).toThrow();
+Object.defineProperty(exports, "__esModule", { value: true });
+var _a = require('@jest/globals'), beforeEach = _a.beforeEach, describe = _a.describe, it = _a.it, expect = _a.expect, test = _a.test;
+var retrieve_1 = require("./retrieve");
+var langs_1 = require("../langs");
+describe("deepl.retrieve ", function () {
+    var french = langs_1.default[0], english = langs_1.default[1];
+    beforeEach(function () {
+    });
+    var requestOptions = {
+        input_lang: french,
+        target_lang: english,
+        deck_name: 'deepldeck',
+        opts: [],
+        article: 'is'
+    };
+    var word = 'oie';
+    it('doesn\'t throw an error', function () { return __awaiter(void 0, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, expect((0, retrieve_1.getTargetsDeepL)(word, requestOptions)).resolves.toBeTruthy()];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it('has a reponse that is formatted correctly', function () {
+        expect(false).toBeTruthy();
+    });
+    it('retrieve the correct French translation of goose from English', function () {
+        expect(false).toBeTruthy();
+    });
+    it('retrieve the c', function () {
+        expect(false).toBeTruthy();
+    });
+    it('throws error on lack of API key', function () {
+        expect(false).toBeTruthy();
+    });
 });
-test("getTargetsDictCCTable returns array", function () { return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2 /*return*/, getTargetsDictCCTable('foulard', opts).then(function (res) {
-                console.log(res);
-                expect(Array.isArray(res)).toBeTruthy();
-            })];
-    });
-}); });
-var wordSchema = {
-    type: 'object',
-    properties: {
-        input: { type: 'string' },
-        targets: { type: 'string' },
-        input_mod: {
-            type: 'string',
-            nullable: true
-        },
-        target_mod: {
-            type: 'string',
-            nullable: true
-        }
-    }
-};
-var validateWord = ajv.compile(wordSchema);
-test("getTargetsDictCCTable words follow schema", function () { return __awaiter(_this, void 0, void 0, function () {
-    return __generator(this, function (_a) {
-        return [2 /*return*/, getTargetsDictCCTable('foulard', opts).then(function (res) {
-                res.forEach(function (w) {
-                    var valid = validateWord(w);
-                    expect(valid).toBeTruthy();
-                });
-            })];
-    });
-}); });

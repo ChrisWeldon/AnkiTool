@@ -1,14 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* deepl/retrieve.js
- * A module containing functions for retrieving Deepl translations.
- *
- * @author: Chris Evans
- */
+exports.getTargetsDeepL = void 0;
 var querystring = require('querystring');
 var axios = require('axios');
-var API_KEY = process.env.DEEPL_API_KEY;
 function getTargetsDeepL(input, request) {
+    var API_KEY = process.env.DEEPL_API_KEY;
     /* Retrieves translation of input word via Deepl
      *
      * @param:  input: string - The sentence to be translated
@@ -17,7 +13,6 @@ function getTargetsDeepL(input, request) {
      * @return: Promise - Returns a promise which passes a list of potential translations
     */
     if (typeof API_KEY == undefined) {
-        console.log("API KEY BROKEN");
         return Promise.reject("Deepl API key not set");
     }
     var payload = {
@@ -50,7 +45,5 @@ function getTargetsDeepL(input, request) {
         });
     });
 }
+exports.getTargetsDeepL = getTargetsDeepL;
 ;
-module.exports = {
-    getTargetsDeepL: getTargetsDeepL
-};

@@ -1,5 +1,6 @@
-/**
+/** Entry point for CLI tool usage of deck creator
  *
+ * @author Chris Evans
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -74,7 +75,6 @@ module.exports = {
                                             switch (_a.label) {
                                                 case 0:
                                                     request = answers;
-                                                    console.log(request);
                                                     if (!checkSave(request.deck_name)) return [3 /*break*/, 2];
                                                     return [4 /*yield*/, inquirer.prompt(KEEP_SAVE)];
                                                 case 1:

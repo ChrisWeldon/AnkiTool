@@ -1,17 +1,23 @@
+import { DeeplResponseObject } from '../../deepl/retrieve.js';
+import { getTargetsDeepL } from '../../index.js';
+import languages from '../../langs';
+
 const { beforeAll, afterAll, describe, it, expect, test} = require('@jest/globals');
-import { getTargetsDeepL } from './retrieve';
-import languages from '../langs';
-import { WordRequestOptions } from '../globaltypes';
+
 
 describe("[Deepl Module] deepl.retrieve ", () => {
     const [french, english] = languages;
     
     beforeAll(() => {
-
+        // sets the DEEPL_API_KEY, CID, GOOGLE_IMAGE_SEARCH
+        require('dotenv').config();
     })
 
     afterAll(()=>{
-
+        // clean env set from .env file
+        process.env.DEEPL_API_KEY = undefined;
+        process.env.CID = undefined;
+        process.env.GOOGLE_IMAGE_SEARCH = undefined;
     })
      
 
@@ -28,16 +34,13 @@ describe("[Deepl Module] deepl.retrieve ", () => {
         await expect(getTargetsDeepL(word, requestOptions)).resolves.toBeTruthy();
     })
 
-    it('has a reponse that is formatted correctly', ()=>{
-        expect(false).toBeTruthy();
-    })
-
-    it('retrieve the correct French translation of goose from English', ()=>{
-        expect(false).toBeTruthy();
-    })
-
-    it('retrieve the c',()=>{
-        expect(false).toBeTruthy();
+    it('retrieve the correct French translation of goose from English', async ()=>{
+        let response = await getTargetsDeepL(word, requestOptions);
+        let hope: DeeplResponseObject = [{
+            input: 'oie',
+            targets: ['goose']
+        }]
+        expect(response).toEqual(hope);
     })
 
 });
@@ -55,6 +58,7 @@ describe("[Deepl Module Error] deepl.retrieve", ()=>{
     let word = 'oie';
 
     it('throws error on lack of API key', async ()=>{
+        // Should throw error that 
         await expect(getTargetsDeepL(word, requestOptions)).rejects.toThrow();
     })
 
