@@ -1,6 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var axios = require('axios');
-var cheerio = require('cheerio');
 var langs = require('../langs');
+var cheerio = require('cheerio');
 var MAX = 4;
 function parseTablePage($, request) {
     var table_element = $('div[id="maincontent"]');
@@ -9,20 +11,20 @@ function parseTablePage($, request) {
     var target_lang = request.target_lang;
     // the non-id'd part of speach header appears one line up from main word table rows
     var header_pos = table_element.find('#tr1').prev();
-    var _loop_1 = function () {
+    var _loop_1 = function (i) {
         row = table_element.find('#tr' + i);
         var left_entry = row.find('td:nth-child(2)');
         var right_entry = row.find('td:nth-child(3)');
         // Dict.cc displays the lower alphabet lang on left, which is weird
         if (input_lang.rank > target_lang.rank) {
             // input is left side of web table, target is right side
-            input_mod = Object.keys(input_lang.mods).find(function (title) { return $("var[title=".concat(title, "]"), left_entry) != ''; });
-            target_mod = Object.keys(target_lang.mods).find(function (title) { return $("var[title=".concat(title, "]"), right_entry) != ''; });
+            input_mod = Object.keys(input_lang.mods).find(function (title) { return $("var[title=".concat(title, "]"), left_entry) !== undefined; });
+            target_mod = Object.keys(target_lang.mods).find(function (title) { return $("var[title=".concat(title, "]"), right_entry) != undefined; });
         }
         else {
             // input is right side of web table, target is left side
-            input_mod = Object.keys(input_lang.mods).find(function (title) { return $("var[title=".concat(title, "]"), right_entry) != ''; });
-            target_mod = Object.keys(target_lang.mods).find(function (title) { return $("var[title=".concat(title, "]"), left_entry) != ''; });
+            input_mod = Object.keys(input_lang.mods).find(function (title) { return $("var[title=".concat(title, "]"), right_entry) != undefined; });
+            target_mod = Object.keys(target_lang.mods).find(function (title) { return $("var[title=".concat(title, "]"), left_entry) != undefined; });
         }
         // Cleaning up the element of misc text 
         left_entry.find('var').remove();
@@ -50,8 +52,8 @@ function parseTablePage($, request) {
     };
     var row, input_mod, target_mod, input_mod, target_mod;
     // starting at 1 because row's id is 1 based
-    for (i = 1; i < MAX; ++i) {
-        _loop_1();
+    for (var i = 1; i < MAX; ++i) {
+        _loop_1(i);
     }
     return parsed;
 }

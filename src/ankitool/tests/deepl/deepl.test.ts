@@ -2,7 +2,7 @@ import { DeeplResponseObject } from '../../deepl/retrieve.js';
 import { getTargetsDeepL } from '../../index.js';
 import languages from '../../langs';
 
-const { beforeAll, afterAll, describe, it, expect, test} = require('@jest/globals');
+const { beforeAll, afterAll, describe, it, expect } = require('@jest/globals');
 
 
 describe("[Deepl Module] deepl.retrieve ", () => {

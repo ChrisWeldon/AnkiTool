@@ -38,7 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var index_js_1 = require("../../index.js");
 var langs_1 = require("../../langs");
-var _a = require('@jest/globals'), beforeAll = _a.beforeAll, afterAll = _a.afterAll, describe = _a.describe, it = _a.it, expect = _a.expect, test = _a.test;
+var _a = require('@jest/globals'), beforeAll = _a.beforeAll, afterAll = _a.afterAll, describe = _a.describe, it = _a.it, expect = _a.expect;
 describe("[Deepl Module] deepl.retrieve ", function () {
     var french = langs_1.default[0], english = langs_1.default[1];
     beforeAll(function () {
@@ -69,21 +69,22 @@ describe("[Deepl Module] deepl.retrieve ", function () {
             }
         });
     }); });
-    it('has a reponse that is formatted correctly', function () { return __awaiter(void 0, void 0, void 0, function () {
-        var response;
+    it('retrieve the correct French translation of goose from English', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response, hope;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0: return [4 /*yield*/, (0, index_js_1.getTargetsDeepL)(word, requestOptions)];
                 case 1:
                     response = _a.sent();
-                    expect(typeof response === DeeplResponseObject).toBeTruthy();
+                    hope = [{
+                            input: 'oie',
+                            targets: ['goose']
+                        }];
+                    expect(response).toEqual(hope);
                     return [2 /*return*/];
             }
         });
     }); });
-    it('retrieve the correct French translation of goose from English', function () {
-        expect(false).toBeTruthy();
-    });
 });
 describe("[Deepl Module Error] deepl.retrieve", function () {
     var french = langs_1.default[0], english = langs_1.default[1];
