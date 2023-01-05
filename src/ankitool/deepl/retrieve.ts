@@ -8,14 +8,9 @@ import { AxiosResponse } from "axios";
 const querystring = require('querystring');
 const axios = require('axios');
 
-export type DeeplTranslation= {
-    input: string, 
-    targets: string[]
-}
-export type DeeplResponseObject = DeeplTranslation[];
 
 
-function getTargetsDeepL(input: string, request: WordRequestOptions): Promise<DeeplResponseObject>{
+function getTargetsDeepL(input: string, request: WordRequestOptions): Promise<TranslationResponse>{
     const API_KEY: string | undefined = process.env.DEEPL_API_KEY; 
     /* Retrieves translation of input word via Deepl
      *

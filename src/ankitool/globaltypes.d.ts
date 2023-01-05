@@ -3,7 +3,6 @@
  * @author Chris Evans
  */
 import { Language } from './langs';
-import { DeeplResponseObject as DeeplResponseObjectLocal } from './deepl/retrieve';
 
 declare global {
     // Indefinite Singular | Definite Singular | No added article
@@ -18,7 +17,19 @@ declare global {
         article: ArticleCode
     }
 
-    type DeeplResponseObject = DeeplResponseObjectLocal;
+    export type Translation = {
+        input: string, 
+        targets: string[],  
+        input_mod?: string,
+        target_mod?: string,
+    
+    }
+    export type TranslationResponse = Translation[];
+
+    export type Translator = {
+        description: string,
+        (word: string, request: WordRequestOptions) : Promise<TranslationResponse>
+    }
 
 }
 

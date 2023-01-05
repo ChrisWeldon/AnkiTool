@@ -45,7 +45,7 @@ function parseTablePage($, request) {
         // dict.cc displays languages alphabetically right to left regardless of input lang
         parsed.push({
             input: input_lang.rank > target_lang.rank ? left_text : right_text,
-            targets: input_lang.rank > target_lang.rank ? right_text : left_text,
+            targets: input_lang.rank > target_lang.rank ? [right_text] : [left_text],
             input_mod: input_mod,
             target_mod: target_mod,
         });

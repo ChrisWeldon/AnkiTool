@@ -1,4 +1,3 @@
-import { DeeplResponseObject } from '../../deepl/retrieve.js';
 import { getTargetsDeepL } from '../../index.js';
 import languages from '../../langs';
 
@@ -36,7 +35,7 @@ describe("[Deepl Module] deepl.retrieve ", () => {
 
     it('retrieve the correct French translation of goose from English', async ()=>{
         let response = await getTargetsDeepL(word, requestOptions);
-        let hope: DeeplResponseObject = [{
+        let hope: TranslationResponse = [{
             input: 'oie',
             targets: ['goose']
         }]

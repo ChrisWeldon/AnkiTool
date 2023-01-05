@@ -6,7 +6,7 @@ const cheerio = require('cheerio');
 
 const MAX = 4;
 
-function parseTablePage($: cheerio.Selector, request: WordRequestOptions){
+function parseTablePage($: cheerio.Selector, request: WordRequestOptions): TranslationResponse{
     const table_element = $('div[id="maincontent"]');
     const parsed = [];
 
@@ -57,9 +57,12 @@ function parseTablePage($: cheerio.Selector, request: WordRequestOptions){
         right_text = right_text.trim()
 
         // dict.cc displays languages alphabetically right to left regardless of input lang
+        if(left_text.trim()==="" || right_text.trim()===""){
+            continue;
+        }
         parsed.push({
             input: input_lang.rank > target_lang.rank ? left_text : right_text, 
-            targets: input_lang.rank > target_lang.rank ? right_text : left_text, 
+            targets: input_lang.rank > target_lang.rank ? [right_text] : [left_text], 
             input_mod, 
             target_mod, 
         });
@@ -67,7 +70,7 @@ function parseTablePage($: cheerio.Selector, request: WordRequestOptions){
     return parsed;
 }
 
-function parsePOSRow(header: cheerio.Cheerio){
+function parsePOSRow(header: cheerio.Cheerio): any{
     // TODO create a config file which describes how to extract depending on POS
     let left_pos = header.find('td:nth-child(1)');
     let right_pos = header.find('td:nth-child(2)');
@@ -76,7 +79,7 @@ function parsePOSRow(header: cheerio.Cheerio){
         rightpos: parsePOSCell(right_pos)
     }
 }
-function parsePOSCell(cell: cheerio.Cheerio){
+function parsePOSCell(cell: cheerio.Cheerio): any{
     // returns the text corresponding to the POS. Will pretty much only ever
     //  return NOUN or VERB because dict.cc doesn't bother with the others
 
@@ -87,8 +90,12 @@ function parsePOSCell(cell: cheerio.Cheerio){
     return POS.text().trim();
 }
 
-function getTargetsDictCCTable(input_word: string, request: WordRequestOptions){    // request are the options for the things
+function getTargetsDictCCTable(input_word: string, request: WordRequestOptions): Promise<TranslationResponse>{ // TODO Dictcc reponse object 
     // Scrapes word from webpage and returns a promise with the translation and alternative inputs
+
+    if(input_word.trim() === ""){
+        return Promise.reject("empty word");
+    }
 
     const RETRIEVAL_URL = "https://"
         + request.input_lang.code.toLowerCase()
