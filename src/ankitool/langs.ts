@@ -16,9 +16,25 @@
  *  }
  * }
  */ 
-// TODO: pull deepl to find aspiratd h sounds le hibou vshospital
+
+export type LanguageName = 'Français' | 'English' | 'Español' | 'Deutsch' ;
+export type LanguageCode = 'FR' | 'EN' | 'ES' | 'DE';
+export interface LanguageMod{
+    base: ((word: string) => string) | (() => string),
+    [key: string]: ((word: string) => string) | (() => string),
+}
+
+export type Language = {
+    name: LanguageName,
+    code: LanguageCode,
+    value: string,
+    rank: number,
+    mods: Record<string, LanguageMod>,
+    disabled?: boolean
+}
+// TODO: pull deepl to find aspiratd h sounds le hibou vs hospital
 const vowels = ['a', 'e', 'i', 'o', 'u'];
-module.exports =  [
+let languages: Language[] = [
     {   /* FRENCH */ 
         name: 'Français', code: 'FR',
         value:'french',
@@ -84,21 +100,21 @@ module.exports =  [
             "der - männlich (Maskulinum)":{
                 base: () => 'm. ',
                 is: () => 'ein ',   // indefinite article
-                ds: (w) => 'der ',   // definite article
+                ds: () => 'der ',   // definite article
                 ipl: () => 'die ', // indefinite plural
                 dpl: () => 'die ', // definit plural
             },
             "die - weiblich (Femininum)":{
                 base: () => 'f. ',
                 is: () => 'die ',
-                ds: (w) => 'eine ',   // definite article
+                ds: () => 'eine ',   // definite article
                 ipl: () => ' ',
                 dpl: () => 'die '
             },
             "das - sächlich (Neutrum)":{
                 base: () => 'n. ',
                 is: () => 'ein ',
-                ds: (w) => 'ein',   // definite article
+                ds: () => 'ein',   // definite article
                 ipl: () => ' ',
                 dpl: () => 'die '
             },
@@ -110,5 +126,7 @@ module.exports =  [
         },
         disabled: true
     },
-    { name: 'Español', code: 'ES', value:'spanish', rank:8, disabled:true},
-]
+    { name: 'Español', code: 'ES', value:'spanish', rank:8, disabled:true, mods:{}},
+];
+
+export default languages as Language[];

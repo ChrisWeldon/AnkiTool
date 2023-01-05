@@ -14,14 +14,12 @@ require("dotenv").config()
 const path = require('path');
 const clear = require('clear');
 const figlet = require('figlet');
-const { startCLi } = require('../src/cli');
-const { Deck } = require('../src/ankitool');
+const { startCLi } = require('../built/cli');
+const { Deck } = require('../built/ankitool');
 
-clear(); // Give tool full screen
+//clear(); // Give tool full screen
 
-console.log(
-  figlet.textSync('AnkiTool', { horizontalLayout: 'full' })
-);
+// console.log( figlet.textSync('AnkiTool', { horizontalLayout: 'full' }));
 startCLi()
     .then(async function(res){
         const { words, ...opts } = res;

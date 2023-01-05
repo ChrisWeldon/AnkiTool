@@ -30,6 +30,7 @@ function cardPrompt(words, {save, ...opts}){
                 // Internet data retrieval step
                 // NOTE: no longer using browse page - not worth it
                 
+                console.log(opts);
                 return Promise.allSettled([
                     getTargetsDeepL(res.word, opts),
                     getTargetsDictCCTable(res.word, opts),
@@ -52,6 +53,7 @@ function cardPrompt(words, {save, ...opts}){
 
                     // Manage available options
                     .then(( total ) => {
+                        console.log(total)
                         // Filter the words by length
                         total = total.filter(( word ) => {
                             if( word.input.length==0 ) return false;

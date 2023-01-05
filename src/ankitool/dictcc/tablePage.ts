@@ -1,9 +1,12 @@
+import { AxiosError, AxiosResponse } from "axios";
+
 const axios = require('axios');
-const cheerio = require('cheerio');
 const langs = require('../langs');
+const cheerio = require('cheerio');
 
 const MAX = 4;
-function parseTablePage($, request){
+
+function parseTablePage($: cheerio.Selector, request: WordRequestOptions): TranslationResponse{
     const table_element = $('div[id="maincontent"]');
     const parsed = [];
 
@@ -14,7 +17,7 @@ function parseTablePage($, request){
     var header_pos = table_element.find('#tr1').prev();
     
     // starting at 1 because row's id is 1 based
-    for (i=1; i<MAX; ++i) {
+    for (let i=1; i<MAX; ++i) {
         var row = table_element.find('#tr' + i);
 
         let left_entry = row.find('td:nth-child(2)');
@@ -23,15 +26,15 @@ function parseTablePage($, request){
         if(input_lang.rank > target_lang.rank){
             // input is left side of web table, target is right side
             var input_mod = Object.keys(input_lang.mods).find(
-                (title)=>$(`var[title=${title}]`, left_entry)!='');
+                (title)=>$(`var[title=${title}]`, left_entry)!== undefined);
             var target_mod = Object.keys(target_lang.mods).find(
-                (title)=>$(`var[title=${title}]`, right_entry)!='');
+                (title)=>$(`var[title=${title}]`, right_entry)!= undefined);
         }else{
             // input is right side of web table, target is left side
             var input_mod = Object.keys(input_lang.mods).find(
-                (title)=>$(`var[title=${title}]`, right_entry)!='');
+                (title)=>$(`var[title=${title}]`, right_entry)!=undefined);
             var target_mod = Object.keys(target_lang.mods).find(
-                (title)=>$(`var[title=${title}]`, left_entry)!='');
+                (title)=>$(`var[title=${title}]`, left_entry)!=undefined);
         }
         // Cleaning up the element of misc text 
         left_entry.find('var').remove();
@@ -42,21 +45,24 @@ function parseTablePage($, request){
 
         // reduce text into one string (element isn't Array)
         let left_text = '';
-        left_atags.each((i, tag) => {
+        left_atags.each((i: number, tag: cheerio.Element): any => {
             left_text = `${left_text} ${$(tag).text().trim()}`
         });
         left_text = left_text.trim()
         
         let right_text = '';
-        right_atags.each((i, tag) => {
+        right_atags.each((i: number, tag: cheerio.Element): any => {
             right_text = `${right_text} ${$(tag).text().trim()}`
         });
         right_text = right_text.trim()
 
         // dict.cc displays languages alphabetically right to left regardless of input lang
+        if(left_text.trim()==="" || right_text.trim()===""){
+            continue;
+        }
         parsed.push({
             input: input_lang.rank > target_lang.rank ? left_text : right_text, 
-            targets: input_lang.rank > target_lang.rank ? right_text : left_text, 
+            targets: input_lang.rank > target_lang.rank ? [right_text] : [left_text], 
             input_mod, 
             target_mod, 
         });
@@ -64,7 +70,7 @@ function parseTablePage($, request){
     return parsed;
 }
 
-function parsePOSRow(header){
+function parsePOSRow(header: cheerio.Cheerio): any{
     // TODO create a config file which describes how to extract depending on POS
     let left_pos = header.find('td:nth-child(1)');
     let right_pos = header.find('td:nth-child(2)');
@@ -73,7 +79,7 @@ function parsePOSRow(header){
         rightpos: parsePOSCell(right_pos)
     }
 }
-function parsePOSCell(cell){
+function parsePOSCell(cell: cheerio.Cheerio): any{
     // returns the text corresponding to the POS. Will pretty much only ever
     //  return NOUN or VERB because dict.cc doesn't bother with the others
 
@@ -84,8 +90,12 @@ function parsePOSCell(cell){
     return POS.text().trim();
 }
 
-function getTargetsDictCCTable(input_word, request){    // request are the options for the things
+function getTargetsDictCCTable(input_word: string, request: WordRequestOptions): Promise<TranslationResponse>{ // TODO Dictcc reponse object 
     // Scrapes word from webpage and returns a promise with the translation and alternative inputs
+
+    if(input_word.trim() === ""){
+        return Promise.reject("empty word");
+    }
 
     const RETRIEVAL_URL = "https://"
         + request.input_lang.code.toLowerCase()
@@ -95,10 +105,8 @@ function getTargetsDictCCTable(input_word, request){    // request are the optio
         + input_word.trim();
 
     return new Promise(function(accept, reject){
-        axios.get(
-        		RETRIEVAL_URL
-        	)
-            .then((data) => {
+        axios.get( RETRIEVAL_URL )
+            .then((data: AxiosResponse) => {
                 // word exists, parse the page for the options
                 const $ = cheerio.load(data.data, { decodeEntities: false }, false);
                 var parsed = parseTablePage($, request);
@@ -107,7 +115,7 @@ function getTargetsDictCCTable(input_word, request){    // request are the optio
                 parsed = parsed.slice(0, (parsed.length<MAX ? parsed.length : MAX));
                 accept(parsed);
             })
-            .catch((err) => {
+            .catch((err: AxiosError) => {
                 // Word might not exist
                 console.log('Dict.cc No word');
                 reject(err);
