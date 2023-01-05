@@ -72,11 +72,46 @@ describe("[Dictcc Module] dictcc.getTargetsDictCCTable ", function () {
                     response = _a.sent();
                     hope = {
                         input: 'oie',
-                        targets: ['goose']
+                        targets: ['goose'],
+                        input_mod: "masculin",
+                        target_mod: "noun"
                     };
-                    expect(response).toContain(hope);
+                    expect(response.length).toBeGreaterThan(0);
+                    expect(response[0]).toEqual(hope);
                     return [2 /*return*/];
             }
+        });
+    }); });
+    it("throws no results on a non-existent word", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, (0, index_js_1.getTargetsDictCCTable)("oiiiiiiioiiiiiiioiii", requestOptions)];
+                case 1:
+                    response = _a.sent();
+                    expect(response.length).toEqual(0);
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+    it("throws no results on a null word", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            response = (0, index_js_1.getTargetsDictCCTable)("", requestOptions);
+            response.catch(function (e) {
+                expect(e).toEqual("empty word");
+            });
+            return [2 /*return*/];
+        });
+    }); });
+    it("throws no results on a empty word", function () { return __awaiter(void 0, void 0, void 0, function () {
+        var response;
+        return __generator(this, function (_a) {
+            response = (0, index_js_1.getTargetsDictCCTable)("  ", requestOptions);
+            response.catch(function (e) {
+                expect(e).toEqual("empty word");
+            });
+            return [2 /*return*/];
         });
     }); });
 });

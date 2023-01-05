@@ -43,6 +43,9 @@ function parseTablePage($, request) {
         });
         right_text = right_text.trim();
         // dict.cc displays languages alphabetically right to left regardless of input lang
+        if (left_text.trim() === "" || right_text.trim() === "") {
+            return "continue";
+        }
         parsed.push({
             input: input_lang.rank > target_lang.rank ? left_text : right_text,
             targets: input_lang.rank > target_lang.rank ? [right_text] : [left_text],
@@ -77,6 +80,9 @@ function parsePOSCell(cell) {
 }
 function getTargetsDictCCTable(input_word, request) {
     // Scrapes word from webpage and returns a promise with the translation and alternative inputs
+    if (input_word.trim() === "") {
+        return Promise.reject("empty word");
+    }
     var RETRIEVAL_URL = "https://"
         + request.input_lang.code.toLowerCase()
         + '-'

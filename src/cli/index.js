@@ -29,6 +29,7 @@ module.exports = {
         return new Promise(async function(accept, reject){
             setupPrompt()
                 .then(async answers => {
+                    console.log("4")
                     request = answers;
                     if(checkSave(request.deck_name)){
                         // Prompt for deletion of existing save

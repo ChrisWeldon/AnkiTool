@@ -20,6 +20,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/cheerio": "^0.22.31",
+    "@types/inquirer": "^9.0.3",
     "anki-apkg-export": "^4.0.3",
     "axios": "^0.27.2",
     "chalk": "^5.0.1",

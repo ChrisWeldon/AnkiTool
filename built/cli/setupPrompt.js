@@ -5,20 +5,6 @@ module.exports = function () {
     // Handles the the preliminary options for the deck, langue, card type, etc
     var questions = [
         {
-            name: 'input_lang',
-            type: 'list',
-            message: 'Choose input language:',
-            choices: langs,
-        },
-        {
-            name: 'target_lang',
-            type: 'list',
-            message: 'Choose your native language:',
-            choices: function (answers) {
-                return langs.filter(function (word) { return word.value != answers.input_lang; });
-            }
-        },
-        {
             name: 'deck_name',
             type: 'input',
             message: 'Deck Name:',

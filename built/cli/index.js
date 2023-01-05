@@ -74,6 +74,7 @@ module.exports = {
                                         return __generator(this, function (_a) {
                                             switch (_a.label) {
                                                 case 0:
+                                                    console.log("4");
                                                     request = answers;
                                                     if (!checkSave(request.deck_name)) return [3 /*break*/, 2];
                                                     return [4 /*yield*/, inquirer.prompt(KEEP_SAVE)];
